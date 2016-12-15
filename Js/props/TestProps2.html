@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Props2</title>
+    <script src="../lib/react.js"></script>
+    <script src="../lib/react-dom.js"></script>
+    <script src="../lib/browser.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+    <script type="text/babel">
+        function formatDate(date) {
+            return date.toLocaleDateString();
+        }
+
+        function Comment(props) {
+            return (
+                        //Comment: 评论  UserInfo:用户信息 Comment-text:评论内容 Comment-date:评论日期
+                        // 在JSX中书写HTML  attribute name需要使用驼峰命名法来书写
+                        //  组件中使用{}来进行输出，自定义组件的属性值通过React的props来进行传递
+                        <div className="Comment">
+                            <div className="UserInfo">
+                                <img className="Avatar" src={props.author.avatarUrl} alt={props.author.name} />
+                                <div className="UserInfo-name">{props.author.name}</div>
+                            </div>
+                            <div className="Comment-text"> {props.text}</div>
+                            <div className="Comment-date">{formatDate(props.date)}</div>
+                        </div>
+                    );
+        }
+
+        const comment = {
+            date: new Date(),
+            text: 'I hope you enjoy learning React!',
+            author: {
+                name: 'Hello Kitty',
+                avatarUrl: 'http://placekitten.com/g/64/64'
+            }
+        };
+
+        ReactDOM.render( <Comment date={comment.date} text={comment.text} author={comment.author}/>,
+        document.getElementById('root')
+        );
+    </script>
+</html>

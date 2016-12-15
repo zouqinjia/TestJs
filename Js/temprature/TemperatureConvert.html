@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Convert </title>
+    <script src="../lib/react.js"></script>
+    <script src="../lib/react-dom.js"></script>
+    <script src="../lib/browser.js"></script>
+</head>
+<body>
+
+    <!-- 根据用户输入 实现华摄氏度和摄氏度之间的相互转换 -->
+    <div id="root"></div>
+
+</body>
+<script type="text/babel">
+    //
+    const scaleNames = {
+        c: 'Celsius',
+        f: 'Fahrenheit'
+    };
+
+    //将华氏摄氏度转换成摄氏度
+    function toCelsius(fahrenheit) {
+
+        return (fahrenheit / 9 * 5) - 32;
+    }
+
+    //将摄氏度转换成华摄氏度
+    function toFahrenheit(celsius){
+
+        return (celsius * 9 / 5) + 32;
+    }
+
+    //构建用户输入组件
+    class TemperatureInput extends React.Component{
+
+        constructor(props){
+            super(props);
+            this.handChange =this.handChange.bind(this);
+            this.state=({value : ''});
+        }
+
+        handChange(event){
+            console.log(event);
+            this.setState({value : event.target.value});
+        }
+
+        render(){
+            const value = this.props.value;
+            const scale = this.props.scale;
+
+            return(<fieldset>
+                    <legend>Enter temperature in {scaleNames[scale]}:</legend>
+                    <input value={value} onChange={this.handChange} />
+                </fieldset>);
+        }
+    }
+
+    //构建计算温度转换组件
+    class Calculator extends React.Component{
+
+        render(){
+            return (
+                    <div>
+                        <TemperatureInput scale="c" />
+                        <TemperatureInput scale="f" />
+                    </div>
+            );
+        }
+    }
+
+    ReactDOM.render(
+            <Calculator/>,
+            document.getElementById("root")
+    );
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>

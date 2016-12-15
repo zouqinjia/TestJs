@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test Props</title>
+    <script src="../lib/react.js"></script>
+    <script src="../lib/react-dom.js"></script>
+    <script src="../lib/browser.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+<!--自定义组件必须大写开头，否则不能被正确编译-->
+</body>
+    <script type="text/babel">
+        const element = <Welcome name="vince" />;
+
+        //自定义组件的属性值通过props进行传递
+        function Welcome(props){
+            return <h1> welcome , {props.name}</h1>
+        }
+        //组合组件必须返回一个根元素，所以将组合组件放在div中
+        function Composing () {
+
+            return(
+                    <div>
+                        <Welcome name='小明'/>
+                        <Welcome name='小红'/>
+                        <Welcome name='阿甘'/>
+                    </div>
+            );
+
+        }
+
+        ReactDOM.render(
+//                element,
+                <Composing/>,//讲组件进行组合
+                document.getElementById('root')
+        );
+    </script>
+</html>

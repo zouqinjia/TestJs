@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test List And Map</title>
+    <script src="../lib/react.js"></script>
+    <script src="../lib/react-dom.js"></script>
+    <script src="../lib/browser.js"></script>
+</head>
+<body>
+
+<div id="root"></div>
+</body>
+    <script type="text/babel">
+        const numbers = [1,2,3,4,5];
+        const listNumber = numbers.map((number) =>{
+            return <li key={number.toString()}> {number} </li>
+        } );
+        ReactDOM.render(
+                <ul> {listNumber} </ul>,
+                document.getElementById('root')
+        );
+    </script>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Temperature Convert </title>
+    <script src="../lib/react.js"></script>
+    <script src="../lib/react-dom.js"></script>
+    <script src="../lib/browser.js"></script>
+</head>
+<body>
+
+    <!-- 根据用户输入 实现华摄氏度和摄氏度之间的相互转换 -->
+    <div id="root"></div>
+
+</body>
+<script type="text/babel">
+
+    const scaleNames = {
+        c: 'Celsius',//摄氏度
+        f: 'Fahrenheit'//华氏度
+    };
+
+    //将华氏度转换成摄氏度
+    function toCelsius(fahrenheit) {
+
+        return (fahrenheit / 9 * 5) - 32;
+    }
+
+    //将摄氏度转换成华摄氏度
+    function toFahrenheit(celsius){
+
+        return (celsius * 9 / 5) + 32;
+    }
+
+    /**
+     * 进行转换
+     * @param value 用户输入的值
+     * @param convert 转换的函数
+     */
+    function toConvert(value,convert){
+
+            const input = parseFloat(value);
+            if(Number.isNaN(input)){//判断是够是number类型，不会像全局的isNaN()先进行强转在进行比较
+                return '';
+            }
+
+            const output = convert(value);
+            //保留三位小数
+            const round = Math.round(output * 1000) / 1000;
+            console.log(round +' round');
+        return round.toString();
+    }
+
+
+    //构建用户输入组件
+    class TemperatureInput extends React.Component{
+
+        constructor(props){
+            super(props);
+            this.handChange =this.handChange.bind(this);
+        }
+
+        handChange(event){
+            console.log(event.target);
+            console.log(event.target.value +' value');
+            this.props.onChange(event.target.value);
+        }
+
+        render(){
+            const value = this.props.value;
+            const scale = this.props.scale;
+            return(<fieldset>
+                    <legend>Enter temperature in {scaleNames[scale]}:</legend>
+                    <input value={value} onChange={this.handChange} />
+                </fieldset>);
+        }
+    }
+
+    //构建计算温度转换组件
+    class Calculator extends React.Component{
+
+        constructor(props){
+            super(props);
+            this.handCelsius = this.handCelsius.bind(this);
+            this.handFahrenheit = this.handFahrenheit.bind(this);
+            this.state = ({ value : '' ,scale :　'c' });
+        }
+
+        //监听摄氏度的变化
+        handCelsius (value){
+            this.setState({scale : 'c' , value});
+        }
+
+        //监听华摄氏度的变化
+        handFahrenheit (value) {
+            this.setState({ scale : 'f' , value});
+        }
+
+
+        render(){
+
+            //获取用户编辑的类型
+            const scale = this.state.scale;
+            //获取用户输入
+            const value = this.state.value;
+
+            const celsius = scale === 'f' ? toConvert(value, toCelsius) : value;
+
+            const fahrenheit = scale === 'c' ? toConvert(value, toFahrenheit) : value;
+
+            return (
+                    <div>
+                        <TemperatureInput scale = "c" value = {celsius}  onChange = {this.handCelsius} />
+                        <TemperatureInput scale = "f" value = {fahrenheit} onChange = {this.handFahrenheit} />
+                    </div>
+            );
+        }
+    }
+
+    ReactDOM.render(
+            <Calculator />,
+            document.getElementById("root")
+    );
+
+
+
+
+
+
+
+
+
+
+
+</script>
+</html>
